@@ -1,4 +1,5 @@
 import logging
+import unittest
 
 import framework.config as config
 from framework.testbase import BaseTestCase
@@ -47,3 +48,16 @@ class ExampleTestCase(BaseTestCase):
         """demo using custom assertion from base class"""
         log.info("executing ExampleTestCase.test_str_ends_in_r")
         self.assertEndsInR('Doctor')
+
+    def test_fails(self):
+        """test that fails"""
+        self.assertTrue(False)
+
+    def test_error(self):
+        """test that results in error"""
+        raise IOError
+
+    @unittest.skip("skip this test")
+    def test_skips(self):
+        """test that is skipped"""
+        pass
