@@ -22,22 +22,25 @@ if __name__ == "__main__":
             test_results[class_name] = {'total': 0, 'failures': 0, 'errors': 0, 'skip': 0, 'success': 0, 'tests': []}
         test_results[class_name]['total'] += 1
 
-        #if test_case: generates a FutureWarning
         temp_test = {'name': test_case.get('name'), 'time': test_case.get('time')}
-        if len(test_case):
-            for non_success in test_case:
-                temp_test['message'] = non_success.get('message')
-                temp_test['type'] = non_success.get('type')
-                temp_test['text'] = non_success.text
-                if non_success.tag == 'failure':
-                    test_results[class_name]['failures'] += 1
-                    temp_test['result'] = 'Failed'
-                elif non_success.tag == 'error':
-                    test_results[class_name]['errors'] += 1
-                    temp_test['result'] = 'Error'
-                elif non_success.tag == 'skipped':
-                    test_results[class_name]['skip'] += 1
-                    temp_test['result'] = 'Skipped'
+
+        # if test_case: generates a FutureWarning
+        # limitation: only checking first element under test case
+        # not reporting system-err message
+        if len(test_case) and (test_case[0].tag == 'failure' or test_case[0].tag == 'error' or test_case[0].tag == 'skipped'):
+            non_success = test_case[0]
+            temp_test['message'] = non_success.get('message')
+            temp_test['type'] = non_success.get('type')
+            temp_test['text'] = non_success.text
+            if non_success.tag == 'failure':
+                test_results[class_name]['failures'] += 1
+                temp_test['result'] = 'Failed'
+            elif non_success.tag == 'error':
+                test_results[class_name]['errors'] += 1
+                temp_test['result'] = 'Error'
+            elif non_success.tag == 'skipped':
+                test_results[class_name]['skip'] += 1
+                temp_test['result'] = 'Skipped'
         else:
             test_results[class_name]['success'] += 1
             temp_test['result'] = 'Passed'

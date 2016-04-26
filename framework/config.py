@@ -1,4 +1,4 @@
-"""Load test and logging config"""
+"""Load logging and test settings"""
 
 import ConfigParser
 import json
@@ -7,14 +7,12 @@ import logging.config
 import os
 
 
-# setup logging
 logging.config.fileConfig('framework/logging.cfg')
 log = logging.getLogger(__name__)
 
-# setup test config
 cp = ConfigParser.SafeConfigParser(allow_no_value=True)
-cp.read('framework/test.cfg')
+cp.read('framework/test_settings.cfg')
 test_env = os.getenv('PY_TEST_ENV')
-props = dict(cp.items(test_env))
+settings = dict(cp.items(test_env))
 
-log.info('Loaded test config for %s: %s', test_env, json.dumps(props, indent=4, sort_keys=True))
+log.info('Loaded test settings for %s: %s', test_env, json.dumps(settings, indent=4, sort_keys=True))
