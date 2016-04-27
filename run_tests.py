@@ -10,6 +10,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='nose wrapper script')
     parser.add_argument('testenv', help='test env section in test.cfg')
     parser.add_argument('--tests', '-tests', nargs='+', help='Ex. tests/test_example.py tests.test_example tests.test_example:ExampleTestCase.test_str_ends_in_r')
+    parser.add_argument('--quiet', '-quiet', action='store_true', default=False)
     parser.add_argument('--xml_out', '-xml_out', action='store_true', default=False, help='write reports/nosetests.xml')
     parser.add_argument('--html_out', '-html_out', action='store_true', default=False, help='write reports/results.html')
     args = parser.parse_args()
@@ -19,7 +20,9 @@ if __name__ == "__main__":
     #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     os.environ['PYTHONPATH'] = os.path.dirname(os.path.abspath(__file__))
 
-    cmd = 'nosetests -v --nocapture --nologcapture'
+    cmd = 'nosetests --nocapture --nologcapture'
+    if not args.quiet:
+        cmd += ' -v'
     if args.tests:
         cmd += ' ' + ' '.join(args.tests)
     if args.xml_out or args.html_out:
