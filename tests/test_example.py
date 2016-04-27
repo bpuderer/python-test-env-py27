@@ -72,3 +72,9 @@ class ExampleTestCase(BaseTestCase):
         """test that is skipped"""
         self.log.info("executing ExampleTestCase.test_skips")
         pass
+
+    def test_writes_stdout(self):
+        """test which writes to stdout. see nosetests --nocapture option"""
+        self.log.info("executing ExampleTestCase.test_writes_stdout")
+        print "here's some text from tests.test_example:ExampleTestCase.test_writes_stdout"
+        pass

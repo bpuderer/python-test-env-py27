@@ -19,7 +19,7 @@ if __name__ == "__main__":
     #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     os.environ['PYTHONPATH'] = os.path.dirname(os.path.abspath(__file__))
 
-    cmd = 'nosetests -v --nologcapture'
+    cmd = 'nosetests -v --nocapture --nologcapture'
     if args.tests:
         cmd += ' ' + ' '.join(args.tests)
     if args.xml_out or args.html_out:
