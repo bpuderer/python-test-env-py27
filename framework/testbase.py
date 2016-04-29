@@ -1,4 +1,3 @@
-import logging
 import unittest
 
 import config
@@ -6,7 +5,6 @@ import config
 
 class BaseTestCase(unittest.TestCase):
 
-    log = logging.getLogger(__name__)
     settings = config.settings
 
     def assertEndsInR(self, seq):
