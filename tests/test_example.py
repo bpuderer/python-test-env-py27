@@ -76,3 +76,8 @@ class ExampleTestCase(BaseTestCase):
         """test which writes to stdout. see nosetests --nocapture option"""
         self.log.info("executing ExampleTestCase.test_writes_stdout")
         print "here's some text from tests.test_example:ExampleTestCase.test_writes_stdout"
+
+    def test_accessing_resource(self):
+        """demo accessing file in resources dir"""
+        with open('resources/neededfile.txt') as f:
+            self.log.info(f.read())
