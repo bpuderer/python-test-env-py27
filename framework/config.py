@@ -1,4 +1,4 @@
-"""Load logging and test settings"""
+"""Load logging and test settings."""
 
 import ConfigParser
 import json
@@ -21,4 +21,5 @@ except ConfigParser.NoSectionError as e:
     log.error(e)
     sys.exit()
 
-log.info('Loaded test settings for %s: %s', test_env, json.dumps(settings, indent=4, sort_keys=True))
+log.info('Loaded test settings for %s: %s', test_env,
+         json.dumps(settings, indent=4, sort_keys=True))

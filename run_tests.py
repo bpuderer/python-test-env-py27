@@ -1,18 +1,23 @@
+"""Wrapper for nosetests which sets env vars for test config."""
+
 import argparse
 import os
 import shlex
 import subprocess
-#import sys
 
 
-if __name__ == "__main__":
-
+def main():
     parser = argparse.ArgumentParser(description='nose wrapper script')
-    parser.add_argument('--testenv', '-testenv', default='DEFAULT', help='case sensitive section in test_settings.cfg')
-    parser.add_argument('--tests', '-tests', nargs='+', help='Ex. tests/test_example.py tests.test_example tests.test_example:ExampleTestCase.test_str_ends_in_r')
+    parser.add_argument('--testenv', '-testenv', default='DEFAULT',
+                        help='case sensitive section in test_settings.cfg')
+    parser.add_argument('--tests', '-tests', nargs='+',
+                        help='Ex. tests/test_example.py tests.test_example \
+                        tests.test_example:ExampleTestCase.test_str_ends_in_r')
     parser.add_argument('--quiet', '-quiet', action='store_true', default=False)
-    parser.add_argument('--xml_out', '-xml_out', action='store_true', default=False, help='write reports/nosetests.xml')
-    parser.add_argument('--html_out', '-html_out', action='store_true', default=False, help='write reports/results.html')
+    parser.add_argument('--xml_out', '-xml_out', action='store_true',
+                        default=False, help='write reports/nosetests.xml')
+    parser.add_argument('--html_out', '-html_out', action='store_true',
+                        default=False, help='write reports/results.html')
     args = parser.parse_args()
 
     os.environ['PY_TEST_ENV'] = args.testenv
@@ -30,10 +35,13 @@ if __name__ == "__main__":
 
     try:
         print subprocess.check_output(shlex.split(cmd))
-    except:
+    except subprocess.CalledProcessError:
         #if any test fails a non-zero exit status is returned
         pass
 
     if args.html_out:
         cmd = 'python parse_nosetests.py reports/nosetests.xml --outfile reports/results.html'
         subprocess.call(shlex.split(cmd))
+
+if __name__ == "__main__":
+    main()

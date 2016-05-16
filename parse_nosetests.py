@@ -1,11 +1,11 @@
+"""Utility to convert xunit xml to html."""
+
 import argparse
 from collections import OrderedDict
-#import json
 import xml.etree.ElementTree as ET
 
 
-if __name__ == "__main__":
-
+def main():
     parser = argparse.ArgumentParser(description='xunit xml to html')
     parser.add_argument('xunit_xml')
     parser.add_argument('--outfile', '-outfile', default='results.html')
@@ -19,7 +19,8 @@ if __name__ == "__main__":
 
         class_name = test_case.get('classname')
         if class_name not in test_results:
-            test_results[class_name] = {'total': 0, 'failures': 0, 'errors': 0, 'skip': 0, 'success': 0, 'tests': []}
+            test_results[class_name] = {'total': 0, 'failures': 0, 'errors': 0,
+                                        'skip': 0, 'success': 0, 'tests': []}
         test_results[class_name]['total'] += 1
 
         temp_test = {'name': test_case.get('name'), 'time': test_case.get('time')}
@@ -27,7 +28,9 @@ if __name__ == "__main__":
         # if test_case: generates a FutureWarning
         # limitation: only checking first element under test case
         # not reporting system-err message
-        if len(test_case) and (test_case[0].tag == 'failure' or test_case[0].tag == 'error' or test_case[0].tag == 'skipped'):
+        if len(test_case) and (test_case[0].tag == 'failure' or
+                               test_case[0].tag == 'error' or
+                               test_case[0].tag == 'skipped'):
             non_success = test_case[0]
             temp_test['message'] = non_success.get('message')
             temp_test['type'] = non_success.get('type')
@@ -45,9 +48,6 @@ if __name__ == "__main__":
             test_results[class_name]['success'] += 1
             temp_test['result'] = 'Passed'
         test_results[class_name]['tests'].append(temp_test)
-
-    #DEBUG
-    #print json.dumps(dict(test_results), indent=4)
 
 
     # write html
@@ -79,7 +79,10 @@ if __name__ == "__main__":
             f.write('        <td>' + str(data['success']) + '</td>\n')
             f.write('        <td>' + str(data['total']) + '</td>\n')
             f.write('      </tr>\n')
-        success = int(test_suite.get('tests')) - int(test_suite.get('failures')) - int(test_suite.get('errors')) - int(test_suite.get('skip'))
+        success = (int(test_suite.get('tests')) -
+                   int(test_suite.get('failures')) -
+                   int(test_suite.get('errors')) -
+                   int(test_suite.get('skip')))
         f.write('      <tr>\n')
         f.write('        <td>Total</td>\n')
         f.write('        <td>' + test_suite.get('failures') + '</td>\n')
@@ -94,7 +97,8 @@ if __name__ == "__main__":
         f.write('    <h1>Failures</h1>\n')
         for test_class, data in test_results.iteritems():
             if data['failures']:
-                f.write('    <h2>' + test_class + ' (' + str(data['failures']) + ' failures)</h2>\n')
+                f.write('    <h2>' + test_class + ' (' + str(data['failures']) +
+                        ' failures)</h2>\n')
                 for test in data['tests']:
                     if test['result'] == 'Failed':
                         # TODO move to function
@@ -151,3 +155,6 @@ if __name__ == "__main__":
 
         f.write('  </body>\n')
         f.write('</html>\n')
+
+if __name__ == "__main__":
+    main()
