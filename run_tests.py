@@ -13,6 +13,9 @@ def main():
     parser.add_argument('--tests', '-tests', nargs='+',
                         help='Ex. tests/test_example.py tests.test_example \
                         tests.test_example:ExampleTestCase.test_str_ends_in_r')
+    parser.add_argument('--attrib', '-a', nargs='+', help='Args are logically \
+                        ORed. Arg with comma delimeters is ANDed. \
+                        Ex. slow tags=tag2 Ex. slow,tags=tag2')
     parser.add_argument('--quiet', '-quiet', action='store_true', default=False)
     parser.add_argument('--xml_out', '-xml_out', action='store_true',
                         default=False, help='write reports/nosetests.xml')
@@ -22,7 +25,6 @@ def main():
 
     os.environ['PY_TEST_ENV'] = args.testenv
     #the subprocess call uses PYTHONPATH not sys.path
-    #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     os.environ['PYTHONPATH'] = os.path.dirname(os.path.abspath(__file__))
 
     cmd = 'nosetests --nocapture --nologcapture'
@@ -30,6 +32,9 @@ def main():
         cmd += ' -v'
     if args.tests:
         cmd += ' ' + ' '.join(args.tests)
+    if args.attrib:
+        for attrib in args.attrib:
+            cmd += ' -a ' + attrib
     if args.xml_out or args.html_out:
         cmd += ' --with-xunit --xunit-file reports/nosetests.xml'
 
