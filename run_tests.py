@@ -26,24 +26,20 @@ def main():
     args = parser.parse_args()
 
     os.environ['PY_TEST_ENV'] = args.testenv
-    #the subprocess call uses PYTHONPATH not sys.path
-    os.environ['PYTHONPATH'] = os.path.dirname(os.path.abspath(__file__))
 
     if args.nose2:
-        cmd = 'nose2 --config framework/nose2.cfg'
+        cmd = 'python -m nose2 --config framework/nose2.cfg'
     else:
-        cmd = 'nosetests --nocapture --nologcapture'
-
+        cmd = 'python -m nose --nocapture --nologcapture'
     if not args.quiet:
         cmd += ' -v'
     if args.tests:
         cmd += ' ' + ' '.join(args.tests)
     if args.attrib:
-        for attrib in args.attrib:
-            if args.nose2:
-                cmd += ' -A ' + attrib
-            else:
-                cmd += ' -a ' + attrib
+        if args.nose2:
+            cmd += ' -A ' + ' -A '.join(args.attrib)
+        else:
+            cmd += ' -a ' + ' -a '.join(args.attrib)
     if args.xml_out or args.html_out:
         if args.nose2:
             cmd += ' --junit-xml'

@@ -2,4 +2,5 @@
 *.log
 nosetests.xml
 nose2-junit.xml
+coverage.xml
 results.html
