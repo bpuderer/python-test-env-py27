@@ -17,6 +17,8 @@ def main():
                         ORed. Arg with comma delimeters is ANDed. \
                         Ex. slow tags=tag2 Ex. slow,tags=tag2')
     parser.add_argument('--quiet', '-quiet', action='store_true', default=False)
+    parser.add_argument('--nose2', '-nose2', action='store_true',
+                        default=False, help='use nose2 instead of nose')
     parser.add_argument('--xml_out', '-xml_out', action='store_true',
                         default=False, help='write reports/nosetests.xml')
     parser.add_argument('--html_out', '-html_out', action='store_true',
@@ -27,16 +29,26 @@ def main():
     #the subprocess call uses PYTHONPATH not sys.path
     os.environ['PYTHONPATH'] = os.path.dirname(os.path.abspath(__file__))
 
-    cmd = 'nosetests --nocapture --nologcapture'
+    if args.nose2:
+        cmd = 'nose2 --config framework/nose2.cfg'
+    else:
+        cmd = 'nosetests --nocapture --nologcapture'
+
     if not args.quiet:
         cmd += ' -v'
     if args.tests:
         cmd += ' ' + ' '.join(args.tests)
     if args.attrib:
         for attrib in args.attrib:
-            cmd += ' -a ' + attrib
+            if args.nose2:
+                cmd += ' -A ' + attrib
+            else:
+                cmd += ' -a ' + attrib
     if args.xml_out or args.html_out:
-        cmd += ' --with-xunit --xunit-file reports/nosetests.xml'
+        if args.nose2:
+            cmd += ' --junit-xml'
+        else:
+            cmd += ' --with-xunit --xunit-file reports/nosetests.xml'
 
     try:
         print subprocess.check_output(shlex.split(cmd))
@@ -44,7 +56,8 @@ def main():
         #if any test fails a non-zero exit status is returned
         pass
 
-    if args.html_out:
+    if args.html_out and not args.nose2:
+        # TODO update script for nose and nose2 xml
         cmd = 'python parse_nosetests.py reports/nosetests.xml --outfile reports/results.html'
         subprocess.call(shlex.split(cmd))
 

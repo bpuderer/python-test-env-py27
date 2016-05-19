@@ -1,4 +1,5 @@
 *.pyc
 *.log
-nosetests*.xml*
-results*.html*
+nosetests.xml
+nose2-junit.xml
+results.html
