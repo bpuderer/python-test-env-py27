@@ -59,3 +59,5 @@ Post-build Actions > Report Violations > pylint > reports/pylint.out
 [Nose2 documentation](http://nose2.readthedocs.io/en/latest/index.html)
 
 Great post from Steve Brettschneider titled [Automated python unit testing, code coverage and code quality analysis with Jenkins](http://bhfsteve.blogspot.com/2012/04/automated-python-unit-testing-code_27.html)
+
+Alex Conrad's [Jenkins and Python](http://www.alexconrad.org/2011/10/jenkins-and-python.html) post
