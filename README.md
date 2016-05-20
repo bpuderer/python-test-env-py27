@@ -23,7 +23,35 @@ The *run_tests.py* script wraps nose/nose2, sets PY_TEST_ENV environment variabl
     $ python run_tests.py --testenv sim2_settings -a tags=tag1 tags=tag3
     $ python run_tests.py --testenv sim2_settings --tests tests.test_example tests.test_example2
     $ python run_tests.py --help
-    
+
+#### Jenkins Integration
+
+Manage Jenkins > Manage Plugins
+* Git plugin
+* Violations plugin
+* Test Results Analyzer Plugin
+* Cobertura Plugin
+* Green Balls
+
+New Item > Freestyle project
+
+Source Code Management > Git > Repository URL
+
+Build > Execute shell > Command
+
+```
+python run_tests.py --testenv sim2_settings --xml_out --nose2
+nose2 --with-coverage --coverage utils --coverage-report xml tests.utils_tests
+export PYTHONPATH='.'
+pylint -f parseable utils tests | tee reports/pylint.out
+```
+
+Post-build Actions > Publish Cobertura Coverage Report > coverage.xml
+
+Post-build Actions > Publish JUnit test result report > Test report XMLs > reports/nose2-junit.xml
+
+Post-build Actions > Report Violations > pylint > reports/pylint.out
+
 #### Links
 
 [Nose documentation](http://nose.readthedocs.io/en/latest/index.html)
