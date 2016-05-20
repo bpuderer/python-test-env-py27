@@ -3,4 +3,5 @@
 nosetests.xml
 nose2-junit.xml
 coverage.xml
+.coverage
 results.html
