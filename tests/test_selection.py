@@ -27,7 +27,7 @@ class TestCaseSelection(BaseTestCase):
         """Demo test selection - test_weather_forecast."""
         self.assertTrue(1)
     test_weather_forecast.slow = True
-        
+
     def test_something1(self):
         """Demo test selection - test_something1."""
         self.assertTrue(1)
