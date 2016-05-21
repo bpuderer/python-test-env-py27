@@ -16,6 +16,7 @@ def main():
     parser.add_argument('--attrib', '-a', nargs='+', help='Args are logically \
                         ORed. Arg with comma delimeters is ANDed. \
                         Ex. slow tags=tag2 Ex. slow,tags=tag2')
+    parser.add_argument('--eval_attrib', '-A', nargs='+', help='python expression for attributes')
     parser.add_argument('--quiet', '-quiet', action='store_true', default=False)
     parser.add_argument('--nose2', '-nose2', action='store_true',
                         default=False, help='use nose2 instead of nose')
@@ -40,6 +41,11 @@ def main():
             cmd += ' -A ' + ' -A '.join(args.attrib)
         else:
             cmd += ' -a ' + ' -a '.join(args.attrib)
+    if args.eval_attrib:
+        if args.nose2:
+            cmd += ' -E ' + ' -E '.join(args.eval_attrib)
+        else:
+            cmd += ' -A ' + ' -A '.join(args.eval_attrib)
     if args.xml_out or args.html_out:
         if args.nose2:
             cmd += ' --junit-xml'
