@@ -4,4 +4,5 @@ nosetests.xml
 nose2-junit.xml
 coverage.xml
 .coverage
+pylint.out
 results.html
