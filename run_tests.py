@@ -58,9 +58,11 @@ def main():
         #if any test fails a non-zero exit status is returned
         pass
 
-    if args.html_out and not args.nose2:
-        # TODO update script for nose and nose2 xml
-        cmd = 'python parse_nosetests.py reports/nosetests.xml --outfile reports/results.html'
+    if args.html_out:
+        if args.nose2:
+            cmd = 'python nose_xml_to_html.py reports/nose2-junit.xml --outfile reports/results.html --nose2'
+        else:
+            cmd = 'python nose_xml_to_html.py reports/nosetests.xml --outfile reports/results.html'
         subprocess.call(shlex.split(cmd))
 
 if __name__ == "__main__":

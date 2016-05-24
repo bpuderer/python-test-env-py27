@@ -9,7 +9,14 @@ def main():
     parser = argparse.ArgumentParser(description='xunit xml to html')
     parser.add_argument('xunit_xml')
     parser.add_argument('--outfile', '-outfile', default='results.html')
+    parser.add_argument('--nose2', '-nose2', action='store_true',
+                        default=False, help='nose2 generated xml')
     args = parser.parse_args()
+
+    if args.nose2:
+        testsuite_skip_key = 'skipped'
+    else:
+        testsuite_skip_key = 'skip'
 
     tree = ET.parse(args.xunit_xml)
     test_suite = tree.getroot()
@@ -32,6 +39,7 @@ def main():
                                test_case[0].tag == 'error' or
                                test_case[0].tag == 'skipped'):
             non_success = test_case[0]
+            # type never set with nose2, message and text not always set either
             temp_test['message'] = non_success.get('message')
             temp_test['type'] = non_success.get('type')
             temp_test['text'] = non_success.text
@@ -82,12 +90,12 @@ def main():
         success = (int(test_suite.get('tests')) -
                    int(test_suite.get('failures')) -
                    int(test_suite.get('errors')) -
-                   int(test_suite.get('skip')))
+                   int(test_suite.get(testsuite_skip_key)))
         f.write('      <tr>\n')
         f.write('        <td>Total</td>\n')
         f.write('        <td>' + test_suite.get('failures') + '</td>\n')
         f.write('        <td>' + test_suite.get('errors') + '</td>\n')
-        f.write('        <td>' + test_suite.get('skip') + '</td>\n')
+        f.write('        <td>' + test_suite.get(testsuite_skip_key) + '</td>\n')
         f.write('        <td>' + str(success) + '</td>\n')
         f.write('        <td>' + test_suite.get('tests') + '</td>\n')
         f.write('      </tr>\n')
@@ -104,7 +112,9 @@ def main():
                         # TODO move to function
                         f.write('    <h3>' + test['name'] + '</h3>\n')
                         f.write('    <ul style="list-style-type:none">\n')
-                        f.write('      <li>' + test['type'] + '</li>\n')
+                        # type never set with nose2
+                        if not args.nose2:
+                            f.write('      <li>' + test['type'] + '</li>\n')
                         f.write('      <li>' + test['message'] + '</li>\n')
                         f.write('      <li>' + test['text'].rstrip() + '</li>\n')
                         f.write('    </ul>\n')
@@ -119,7 +129,9 @@ def main():
                         # TODO refactor
                         f.write('    <h3>' + test['name'] + '</h3>\n')
                         f.write('    <ul style="list-style-type:none">\n')
-                        f.write('      <li>' + test['type'] + '</li>\n')
+                        # type never set with nose2
+                        if not args.nose2:
+                            f.write('      <li>' + test['type'] + '</li>\n')
                         f.write('      <li>' + test['message'] + '</li>\n')
                         f.write('      <li>' + test['text'].rstrip() + '</li>\n')
                         f.write('    </ul>\n')
@@ -134,9 +146,14 @@ def main():
                         # TODO refactor
                         f.write('    <h3>' + test['name'] + '</h3>\n')
                         f.write('    <ul style="list-style-type:none">\n')
-                        f.write('      <li>' + test['type'] + '</li>\n')
-                        f.write('      <li>' + test['message'] + '</li>\n')
-                        f.write('      <li>' + test['text'].rstrip() + '</li>\n')
+                        # type never set with nose2
+                        if not args.nose2:
+                            f.write('      <li>' + test['type'] + '</li>\n')
+                        # skipped doesn't usually have message or text with nose2
+                        if test['message']:
+                            f.write('      <li>' + test['message'] + '</li>\n')
+                        if test['text']:
+                            f.write('      <li>' + test['text'].rstrip() + '</li>\n')
                         f.write('    </ul>\n')
 
         # All Tests
