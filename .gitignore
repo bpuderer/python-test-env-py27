@@ -1,9 +1,4 @@
 *.pyc
-*.log
-nosetests.xml
-nose2-junit.xml
 coverage.xml
 .coverage
 .idea
-pylint.out
-results.html

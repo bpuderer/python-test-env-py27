@@ -1,4 +1,4 @@
-"""Wrapper for nosetests which sets env vars for test config."""
+"""Wrapper for nose/nose2."""
 
 import argparse
 import os
@@ -7,7 +7,7 @@ import subprocess
 
 
 def main():
-    parser = argparse.ArgumentParser(description='nose wrapper script')
+    parser = argparse.ArgumentParser(description='nose/nose2 wrapper script')
     parser.add_argument('--testenv', '-testenv', default='DEFAULT',
                         help='case sensitive section in test_settings.cfg')
     parser.add_argument('--tests', '-tests', nargs='+',
@@ -21,9 +21,9 @@ def main():
     parser.add_argument('--nose2', '-nose2', action='store_true',
                         default=False, help='use nose2 instead of nose')
     parser.add_argument('--xml_out', '-xml_out', action='store_true',
-                        default=False, help='write reports/nosetests.xml')
+                        default=False, help='write test results xunit xml')
     parser.add_argument('--html_out', '-html_out', action='store_true',
-                        default=False, help='write reports/results.html')
+                        default=False, help='write test results in HTML using ant JUnitReport')
     args = parser.parse_args()
 
     os.environ['PY_TEST_ENV'] = args.testenv
@@ -60,10 +60,11 @@ def main():
 
     if args.html_out:
         if args.nose2:
-            cmd = 'python nose_xml_to_html.py reports/nose2-junit.xml --outfile reports/results.html --nose2'
+            cmd = 'python -m framework.split_xunitxml --infile reports/nose2-junit.xml'
         else:
-            cmd = 'python nose_xml_to_html.py reports/nosetests.xml --outfile reports/results.html'
+            cmd = 'python -m framework.split_xunitxml --infile reports/nosetests.xml'
         subprocess.call(shlex.split(cmd))
+        subprocess.call(shlex.split('ant -buildfile buildTestReports.xml'))
 
 if __name__ == "__main__":
     main()
