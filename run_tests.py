@@ -1,8 +1,10 @@
 """Wrapper for nose/nose2."""
 
 import argparse
+import glob
 import os
 import shlex
+import shutil
 import subprocess
 
 
@@ -27,6 +29,12 @@ def main():
     args = parser.parse_args()
 
     os.environ['PY_TEST_ENV'] = args.testenv
+
+    # cleanup previous run's reports
+    for f in glob.glob('reports/*.xml'):
+        os.remove(f)
+    if os.path.isdir('reports/html'):
+        shutil.rmtree('reports/html')
 
     if args.nose2:
         cmd = 'python -m nose2 --config framework/nose2.cfg'
@@ -55,7 +63,7 @@ def main():
     try:
         print subprocess.check_output(shlex.split(cmd))
     except subprocess.CalledProcessError:
-        #if any test fails a non-zero exit status is returned
+        # if any test fails a non-zero exit status is returned
         pass
 
     if args.html_out:
