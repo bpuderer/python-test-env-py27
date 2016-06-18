@@ -8,7 +8,7 @@
       <mkdir dir="${genReportsDir}" />
       <junitreport todir="${reportsDir}">
          <fileset dir="${reportsDir}">
-            <include name="**/TEST-*.xml"/>
+            <include name="TEST-*.xml"/>
          </fileset>
          <report format="frames" todir="${genReportsDir}" />
       </junitreport>
