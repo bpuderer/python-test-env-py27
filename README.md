@@ -17,7 +17,7 @@ The resources directory is a place for various files needed by the tests.
 The *run_tests.py* script wraps nose/nose2, sets PY_TEST_ENV environment variable to the section name in *framework/test_settings.cfg* to be used by *config.py* and can optionally call ant to generate html reports.  ant must be in the path to use the html generation option.  It was tested with ant 1.9.7.
 
     $ python run_tests.py
-    $ python run_tests.py --testenv sim2_settings --nose2 --xml_out
+    $ python run_tests.py --testenv sim2_settings --nose2 --xml
     $ python run_tests.py --testenv sim2_settings -a tags=tag1 tags=tag3
     $ python run_tests.py --testenv sim2_settings --tests tests.test_example tests.test_example2
     $ python run_tests.py --help
@@ -41,7 +41,7 @@ Build Environment > Delete workspace before build starts
 Build > Execute shell > Command
 
 ```
-python run_tests.py --testenv sim2_settings --xml_out --nose2
+python run_tests.py --testenv sim2_settings --xml --nose2
 nose2 --with-coverage --coverage utils --coverage-report xml tests.utils_tests
 export PYTHONPATH='.'
 pylint -f parseable utils tests | tee reports/pylint.out
