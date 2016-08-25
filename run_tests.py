@@ -11,11 +11,11 @@ import subprocess
 def main():
     parser = argparse.ArgumentParser(description='nose/nose2 wrapper script',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--testenv', '-te', default='DEFAULT',
-                        help='case sensitive section in test_settings.cfg')
-    parser.add_argument('--tests', '-t', nargs='+',
+    parser.add_argument('tests', nargs='*',
                         help='Ex. tests/test_example.py tests.test_example \
                         tests.test_example:ExampleTestCase.test_str_ends_in_r')
+    parser.add_argument('--testenv', '-te', default='DEFAULT',
+                        help='case sensitive section in test_settings.cfg')
     parser.add_argument('--attr', '-a', nargs='+', help='Args are logically \
                         ORed. Arg with comma delimeters is ANDed. \
                         Ex. slow tags=tag2 Ex. slow,tags=tag2')
@@ -44,14 +44,14 @@ def main():
     else:
         cmd = 'python -m nose --nocapture --nologcapture'
 
+    if args.tests:
+        cmd += ' ' + ' '.join(args.tests)
+
     if not args.quiet:
         cmd += ' -v'
 
     if args.collect_only:
         cmd += ' --collect-only'
-
-    if args.tests:
-        cmd += ' ' + ' '.join(args.tests)
 
     if args.attr:
         if args.nose2:

@@ -18,8 +18,8 @@ The *run_tests.py* script wraps nose/nose2, sets PY_TEST_ENV environment variabl
 
     $ python run_tests.py
     $ python run_tests.py --testenv sim2_settings --nose2 --xml_out
-    $ python run_tests.py --testenv sim2_settings -a tags=tag1 tags=tag3
-    $ python run_tests.py --testenv sim2_settings --tests tests.test_example tests.test_example2
+    $ python run_tests.py -te sim2_settings -a tags=tag1 tags=tag3
+    $ python run_tests.py tests.test_example tests.test_example2 -te sim2_settings -n2
     $ python run_tests.py --help
 
 #### Jenkins Integration
