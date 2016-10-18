@@ -31,6 +31,7 @@ Manage Jenkins > Manage Plugins
 * Cobertura Plugin
 * Workspace Cleanup Plugin
 * Green Balls
+* Email Extension Plugin
 
 New Item > Freestyle project
 
@@ -54,6 +55,8 @@ Post-build Actions > Publish Cobertura Coverage Report > coverage.xml
 Post-build Actions > Publish JUnit test result report > Test report XMLs > reports/nose2-junit.xml
 
 Post-build Actions > Report Violations > pylint > reports/pylint.out
+
+Post-build Actions > Editable Email Notification > Default Content > ${JELLY_SCRIPT,template="html"}
 
 #### Links
 
