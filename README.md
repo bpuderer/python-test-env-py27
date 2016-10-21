@@ -56,6 +56,8 @@ Post-build Actions > Publish JUnit test result report > Test report XMLs > repor
 
 Post-build Actions > Report Violations > pylint > reports/pylint.out
 
+Post-build Actions > Editable Email Notification > Content Type > HTML (text/html)
+
 Post-build Actions > Editable Email Notification > Default Content > ${JELLY_SCRIPT,template="html"}
 
 #### Links
