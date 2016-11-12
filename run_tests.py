@@ -33,8 +33,12 @@ def main():
 
     os.environ['PY_TEST_ENV'] = args.testenv
 
-    # cleanup previous run's reports
+    # cleanup previous run
     for f in glob.glob('reports/*.xml'):
+        os.remove(f)
+    for f in glob.glob('log/*'):
+        os.remove(f)
+    for f in glob.glob('screenshots/*'):
         os.remove(f)
     if os.path.isdir('reports/html'):
         shutil.rmtree('reports/html')
