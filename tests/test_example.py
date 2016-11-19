@@ -31,12 +31,11 @@ class ExampleTestCase(BaseTestCase):
         """tearDown runs after each test."""
         pass
 
-    def test_sim2_config(self):
+    def test_env1_config(self):
         """Demo accessing settings."""
-        self.log.info("executing ExampleTestCase.test_sim2_config")
-        self.assertEqual(self.settings['setting1'], 'default_setting1_value')
-        self.assertEqual(self.settings['setting2'], 'sim2_setting2_valueOVERRIDE')
-        self.assertEqual(self.settings['setting3'], 'sim2_setting3_valueOVERRIDE')
+        self.log.info("Test settings: " + str(self.settings))
+        self.assertEqual(self.settings['setting1'], 'env1_setting1_value')
+        self.assertEqual(self.settings['setting2'], 'default_setting2_value')
 
     def test_adding_ints(self):
         """Demo calling utility method."""
