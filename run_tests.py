@@ -12,23 +12,25 @@ def main():
     parser = argparse.ArgumentParser(description='nose/nose2 wrapper script',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('tests', nargs='*',
-                        help='Ex. tests/test_example.py tests.test_example \
-                        tests.test_example:ExampleTestCase.test_str_ends_in_r')
+                        help='Only run specified tests. Ex. tests.test_example \
+                        Ex. tests.test_example:ExampleTestCase.test_str_ends_in_r \
+                        Ex. tests/test_example.py')
     parser.add_argument('--testenv', '-te', default='DEFAULT',
-                        help='case sensitive section in test_settings.cfg')
-    parser.add_argument('--attr', '-a', nargs='+', help='Args are logically \
-                        ORed. Arg with comma delimeters is ANDed. \
+                        help='Case sensitive section in test_settings.cfg')
+    parser.add_argument('--attr', '-a', nargs='+', help='Select tests by attribute. \
+                        Args are logically OR\'d. Arg with comma delimeter(s) is AND\'d. \
                         Ex. slow tags=tag2 Ex. slow,tags=tag2')
-    parser.add_argument('--eval_attr', '-A', nargs='+', help='python expression for attributes')
+    parser.add_argument('--eval_attr', '-A', nargs='+', help='Select tests where python expression \
+                        for attributes evaluates to True')
     parser.add_argument('--quiet', '-q', action='store_true', default=False)
     parser.add_argument('--nose2', '-n2', action='store_true',
-                        default=False, help='use nose2 instead of nose')
+                        default=False, help='Use nose2 instead of nose which is in maintenance mode')
     parser.add_argument('--collect_only', '-c', action='store_true',
-                        default=False, help='collect and output test names, don\'t run tests')
+                        default=False, help='Collect and output test names, don\'t run tests')
     parser.add_argument('--xml', action='store_true',
-                        default=False, help='write test results xunit xml')
+                        default=False, help='Write test results xUnit XML')
     parser.add_argument('--html', action='store_true',
-                        default=False, help='write test results in HTML using ant JUnitReport')
+                        default=False, help='Write test results in HTML using ant JUnitReport')
     args = parser.parse_args()
 
     os.environ['PY_TEST_ENV'] = args.testenv
