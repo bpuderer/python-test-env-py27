@@ -17,9 +17,9 @@ The resources directory is a place for various files needed by the tests.
 The *run_tests.py* script wraps nose/nose2, sets PY_TEST_ENV environment variable to the section name in *framework/test_settings.cfg* to be used by *config.py* and can optionally call ant to generate html reports.  ant must be in the path to use the html generation option.  It was tested with ant 1.9.7.
 
     $ python run_tests.py
-    $ python run_tests.py --testenv sim2_settings --nose2 --xml
-    $ python run_tests.py -te sim2_settings -a tags=tag1 tags=tag3
-    $ python run_tests.py tests.test_example tests.test_example2 -te sim2_settings -n2
+    $ python run_tests.py --testenv env1 --nose2 --xml
+    $ python run_tests.py -te env1 -a tags=tag1 tags=tag3
+    $ python run_tests.py tests.test_example tests.test_example2 -te env1 -n2
     $ python run_tests.py --help
 
 #### Jenkins Integration
