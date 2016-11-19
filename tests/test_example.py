@@ -84,3 +84,11 @@ class ExampleTestCase(BaseTestCase):
         """Demo accessing a file in resources directory."""
         with open('resources/neededfile.txt') as f:
             self.log.info(f.read())
+
+    def test_logging(self):
+        """Demo logging"""
+        self.log.debug("debug level message")
+        self.log.info("info level message")
+        self.log.warning("warning level message")
+        self.log.error("error level message")
+        self.log.critical("critical level message")
