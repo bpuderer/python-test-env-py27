@@ -1,4 +1,4 @@
-"""Load logging and test settings."""
+"""Read test settings and init logger"""
 
 import ConfigParser
 import json
@@ -18,8 +18,8 @@ try:
     settings = dict(cp.items(test_env))
 except ConfigParser.NoSectionError as e:
     print e
-    log.error(e)
+    print 'Test run aborted'
     sys.exit()
 
-log.info('Loaded test settings for %s: %s', test_env,
-         json.dumps(settings, indent=4, sort_keys=True))
+log.info('Loaded test settings for {}: {}'.format(test_env,
+         json.dumps(settings, indent=4, sort_keys=True)))
