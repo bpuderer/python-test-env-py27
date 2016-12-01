@@ -41,12 +41,10 @@ Build Environment > Delete workspace before build starts
 
 Build > Execute shell > Command
 
-```
-python run_tests.py --testenv sim2_settings --xml --nose2
-nose2 --with-coverage --coverage utils --coverage-report xml tests.utils_tests
-export PYTHONPATH='.'
-pylint -f parseable utils tests | tee reports/pylint.out
-```
+    python run_tests.py -te env1 --xml -n2
+    nose2 --with-coverage --coverage utils --coverage-report xml tests.utils_tests
+    export PYTHONPATH='.'
+    pylint -f parseable utils tests | tee reports/pylint.out
 
 Post-build Actions > Archive the artifacts > log/*
 
