@@ -3,7 +3,7 @@
 import logging
 import unittest
 
-import framework.config as config
+from framework.config import settings
 from framework.testbase import BaseTestCase
 from utils.useless_util import add_stuffs
 
@@ -37,9 +37,9 @@ class ExampleTestCase(BaseTestCase):
 
     def test_env1_config(self):
         """Demo accessing settings"""
-        log.info("Test settings: " + str(config.settings))
-        self.assertEqual(config.settings['setting1'], 'env1_setting1_value')
-        self.assertEqual(config.settings['setting2'], 'default_setting2_value')
+        log.info("Test settings: " + str(settings))
+        self.assertEqual(settings['setting1'], 'env1_setting1_value')
+        self.assertEqual(settings['setting2'], 'default_setting2_value')
 
     def test_adding_ints(self):
         """Demo calling utility method"""
