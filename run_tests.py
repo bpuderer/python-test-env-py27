@@ -85,9 +85,9 @@ def main():
 
     if args.html:
         if args.nose2:
-            cmd = 'python -m framework.split_xunitxml --infile reports/nose2-junit.xml'
+            cmd = 'python -m framework.split_xunitxml reports/nose2-junit.xml'
         else:
-            cmd = 'python -m framework.split_xunitxml --infile reports/nosetests.xml'
+            cmd = 'python -m framework.split_xunitxml reports/nosetests.xml'
         subprocess.call(shlex.split(cmd))
         subprocess.call(shlex.split('ant -buildfile buildTestReports.xml'))
 

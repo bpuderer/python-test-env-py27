@@ -1,21 +1,23 @@
-"""Split nose/nose2 xunit xml to multiple xmls."""
+"""Split nose/nose2 xunit xml to multiple xmls"""
 
 import argparse
+import os.path
 import xml.etree.ElementTree as ET
 
 
-def write_suite(suite):
+def write_suite(suite, outpath):
     """write individual testsuite XML"""
-    # TODO make output location flexible
-    filename = 'reports/' + 'TEST-' + suite.attrib['name'] + '.xml'
-    ET.ElementTree(suite).write(filename, xml_declaration=True, encoding='utf-8')
+    filename = 'TEST-' + suite.attrib['name'] + '.xml'
+    full_path = os.path.join(outpath, filename)
+    ET.ElementTree(suite).write(full_path, xml_declaration=True, encoding='utf-8')
 
 def main():
     parser = argparse.ArgumentParser(description='split xunit xml')
-    parser.add_argument('--infile', '-i', default='reports/nosetests.xml',
-                        help='xunit xml from nose or nose2')
+    parser.add_argument('infile', help='xunit xml from nose or nose2')
     args = parser.parse_args()
 
+    # write to same location as infile
+    outpath = os.path.dirname(args.infile)
     tree = ET.parse(args.infile)
     input_suite = tree.getroot()
 
@@ -27,7 +29,7 @@ def main():
         if prev_suite_name != suite_name:
             # first testcase
             if suite is not None:
-                write_suite(suite)
+                write_suite(suite, outpath)
             suite = ET.Element('testsuite', attrib={'name': suite_name, 'tests': '0', 'failures': '0',
                                                     'errors': '0', 'skipped': '0', 'time': '0.0'})
 
@@ -46,7 +48,7 @@ def main():
 
     # write last testsuite
     if suite is not None:
-        write_suite(suite)
+        write_suite(suite, outpath)
 
 if __name__ == "__main__":
     main()
