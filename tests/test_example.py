@@ -38,6 +38,9 @@ class ExampleTestCase(BaseTestCase):
     def test_env1_config(self):
         """Demo accessing settings"""
         log.info("Test settings: " + str(settings))
+        # if setting not found, KeyError raised when retrieved this way.
+        # Using 'get' method, either None or a default value is returned.
+        # Ex. settings.get('setting1', "default val")
         self.assertEqual(settings['setting1'], 'env1_setting1_value')
         self.assertEqual(settings['setting2'], 'default_setting2_value')
 
