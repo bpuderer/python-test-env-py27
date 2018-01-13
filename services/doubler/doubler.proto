@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+service Doubler {
+    rpc Double (Number) returns (Number) {}
+}
+
+message Number {
+    float value = 1;
+}
