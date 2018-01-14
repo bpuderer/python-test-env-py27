@@ -1,10 +1,8 @@
 """Demo basics of using test environment"""
 
-import logging
-
 import grpc
 
-import framework.config
+from framework.config import settings
 from framework.testbase import BaseTestCase
 from services.doubler.doubler_pb2_grpc import DoublerStub
 from services.doubler.doubler_pb2 import Number
@@ -17,7 +15,7 @@ class ExampleGrpcTestCase(BaseTestCase):
     @classmethod
     def setUpClass(cls):
         """test class setup"""
-        cls._channel = grpc.insecure_channel('localhost:50051')
+        cls._channel = grpc.insecure_channel(settings["grpc_server"])
         cls._stub = DoublerStub(cls._channel)
 
     def test_grpc_call1(self):
