@@ -21,11 +21,11 @@ class RestJsonExample(BaseTestCase):
     def create_book(filename):
         with open(filename) as f:
             book = json.load(f)
-        return requests.post(settings["books_url"], json=book, timeout=5)
+        return requests.post(settings["books_url"], json=book, timeout=float(settings["http_timeout"]))
 
     @staticmethod
     def remove_books():
-        requests.delete(settings["books_url"], timeout=5)
+        requests.delete(settings["books_url"], timeout=float(settings["http_timeout"]))
 
 
     def test_book_creation(self):
