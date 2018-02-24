@@ -39,4 +39,4 @@ class RestXmlExample(BaseTestCase):
     def test_xml_malformed(self):
         """test to demo schema check failing"""
 
-        root = self.send_xml_validate("resources/requests/echoxml/malformed.xml")
+        self.send_xml_validate("resources/requests/echoxml/malformed.xml")
