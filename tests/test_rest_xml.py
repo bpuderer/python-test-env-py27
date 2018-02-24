@@ -6,6 +6,7 @@ import requests
 
 from framework.config import settings
 from framework.testbase import BaseTestCase
+from utils.schemavalidation.validate import validate_a
 
 
 log = logging.getLogger(__name__)
@@ -22,6 +23,7 @@ class RestXmlExample(BaseTestCase):
         r = self.send_xml(filename)
         log.debug("Received: " + r.text)
         self.assertEqual(r.status_code, httplib.OK)
+        validate_a(r.text)
         return ET.fromstring(r.text)
 
 
@@ -32,3 +34,9 @@ class RestXmlExample(BaseTestCase):
         b_elements = root.iterfind('b')
         b_vals = {b.text for b in b_elements}
         self.assertEqual(b_vals, set(["b val 1", "b val 2"]))
+
+
+    def test_xml_malformed(self):
+        """test to demo schema check failing"""
+
+        root = self.send_xml_validate("resources/requests/echoxml/malformed.xml")
