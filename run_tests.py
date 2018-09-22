@@ -79,9 +79,8 @@ def main():
 
     try:
         print subprocess.check_output(shlex.split(cmd))
-    except subprocess.CalledProcessError:
-        # if any test fails a non-zero exit status is returned
-        pass
+    except subprocess.CalledProcessError as e:
+        print e.output
 
     if args.html:
         if args.nose2:
